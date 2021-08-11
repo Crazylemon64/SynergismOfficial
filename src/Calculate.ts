@@ -214,7 +214,7 @@ let lookupTableRuneExp: number[] | null = null;
 
 // Returns the amount of exp required to level a rune
 export const calculateRuneExpToLevel = (runeIndex: number, runeLevel = player.runelevels[runeIndex]) => {
-    lookupTableRuneExp ??= Array.from({ length: 40000 }, (_, i) => lookupTableGen(i));
+    lookupTableRuneExp ??= Array.from({ length: G['runestandardcap'] }, (_, i) => lookupTableGen(i));
 
     // For runes 6 and 7 we will apply a special multiplier
     let multiplier = lookupTableRuneExp[runeLevel]
@@ -244,8 +244,15 @@ export const calculateMaxRunes = (i: number) => {
         -901,
         -998
     ]
+    
 
     max += increaseMaxLevel[i]
+    
+    // standard rune cap
+    if (i >= 1 && i <= 5) {
+      max = Math.min(max, G['runestandardcap'])
+    }
+
     return max
 }
 
